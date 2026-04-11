@@ -1,0 +1,130 @@
+# Express.js API — Practice Project
+
+A personal practice project for learning how to build and consume a REST API using Node.js, Express, MongoDB, and Vue.js.
+
+---
+
+## What This Project Does
+
+- Built a REST API from scratch using Express.js
+- Connected to a local MongoDB database using Mongoose
+- Implemented JWT authentication (register, login, protected routes)
+- Consumed the API from a Vue.js frontend using Axios
+
+---
+
+## Tech Stack
+
+**Backend**
+- Node.js
+- Express.js
+- MongoDB (local)
+- Mongoose
+- JSON Web Tokens (JWT)
+- bcryptjs
+
+**Frontend**
+- Vue.js 3
+- Axios
+- Vue Router
+
+---
+
+## Project Structure
+
+```
+my-express-app/
+├── controllers/
+│   ├── authController.js
+│   └── productController.js
+├── middleware/
+│   └── auth.js
+├── models/
+│   ├── Product.js
+│   └── User.js
+├── routes/
+│   ├── auth.js
+│   └── products.js
+├── .env
+├── .gitignore
+├── package.json
+└── server.js
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js installed
+- MongoDB installed locally
+
+### Installation
+
+```bash
+# Clone the project
+git clone <your-repo-url>
+cd my-express-app
+
+# Install dependencies
+npm install
+
+# Create .env file
+touch .env
+```
+
+Add this to your `.env` file:
+```
+MONGO_URI=mongodb://localhost:27017/myshop
+JWT_SECRET=your_secret_key_here
+```
+
+### Running the Project
+
+```bash
+# Start MongoDB
+sudo systemctl start mongod
+
+# Start the server
+npm run dev
+```
+
+Server runs on `http://localhost:3001`
+
+---
+
+## API Endpoints
+
+### Auth Routes
+| Method | URL | Description | Protected |
+|--------|-----|-------------|-----------|
+| POST | /api/auth/register | Register a new user | No |
+| POST | /api/auth/login | Login and get token | No |
+| GET | /api/auth/users | Get all users | Yes |
+
+### Product Routes
+| Method | URL | Description | Protected |
+|--------|-----|-------------|-----------|
+| GET | /api/products | Get all products | No |
+| GET | /api/products/:id | Get one product | No |
+| POST | /api/products | Create a product | Yes |
+| PUT | /api/products/:id | Update a product | Yes |
+| DELETE | /api/products/:id | Delete a product | Yes |
+
+---
+
+## What I Learned
+
+- How to build a REST API with Express.js
+- How to connect to MongoDB using Mongoose
+- How to create schemas and models
+- How to implement JWT authentication
+- How to protect routes with middleware
+- How to consume an API from Vue.js using Axios
+- How to use Axios interceptors to automatically attach tokens
+
+---
+
+## Author
+
+Blessing Alozie — self-taught developer learning in public.
