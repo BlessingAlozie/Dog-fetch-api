@@ -10,7 +10,8 @@
       </h1>
       <p class="text-gray-300 text-lg leading-relaxed max-w-sm">
         Create your account and start your journey with smarter tools and seamless experience.
-      </p>
+
+</p>
     </div>
 
     <!-- RIGHT SIDE -->
@@ -80,7 +81,7 @@
         <!-- Login -->
         <p class="text-sm text-gray-500 text-center">
           Already have an account?
-          <a href="#" class="text-black font-medium">Login</a>
+         <router-link to="/login" class="text-black font-medium">Login</router-link>
         </p>
 
       </form>
@@ -99,23 +100,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+
 import axios from 'axios';
+import { ref } from 'vue';
+import Login from './Login.vue';
 
 const isLoading = ref(false)
-
 const form = ref({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  agree: false
+name: '',
+email: '',
+password: '',
+confirmPassword: '',
+agree: false
 })
 
 const error = ref({})
 
-async function handleSubmit(){
-error.value = {}
+async function handleSubmit() {
+
+  error.value = {}
+// form validation
 
 if(!form.value.name.trim()){
   error.value.name = 'Name is required'
@@ -125,50 +129,54 @@ if(!form.value.email.trim()){
 }
 if(!form.value.password.trim()){
   error.value.password = 'Password is required'
+}else if (!/\S+@\S+\.\S+/.test(form.value.email)) {
+    error.value.email = 'Please enter a valid email';
 }
+
 if(!form.value.confirmPassword.trim()){
-  error.value.confirmPassword = 'Passwords is required'
+  error.value.confirmPassword = 'Password is required'
 }
-if(form.value.confirmPassword !== form.value.password){
-  error.value.confirmPassword = 'Passwords do not match'
+if(form.value.confirmPassword !== form.value.password) {
+  error.value.confirmPassword = 'Password do not match'
 }
-if(!form.value.agree){
-  error.value.agree = 'You must accept terms'
+if(!form.value.agree) {
+  error.value.agree = 'You must accept the terms'
 }
 
-if(Object.keys(error.value).length > 0) return
+if(Object.keys(error.value).length === 0){
 try {
-  console.log('Form is ready for submission')
   isLoading.value = true
-  const response = await axios.post('http://localhost:3001/api/auth/register',
-    {
-     name: form.value.name,
-     email: form.value.email,
-     password: form.value.password
-    }
-  )
-  console.log(response.data)
-  console.log('Form submitted successfully')
 
-  isLoading.value = false
-
-  // reset after submitting
-  form.value ={
-    name: '',
-    email : '',
-    password: '',
-    confirmPassword: '',
-    agree: false
+const response = await axios.post('http://localhost:3001/api/auth/register',
+  {
+    name: form.value.name,
+    email: form.value.email,
+    password: form.value.password
   }
-}
-catch (err) {
-console.error('api error', err)
-console.log('something went wrong')
+)
+console.log(response.data)
+console.log('Submitted sucessfully')
+isLoading.value = false
+
+// reset field
+form.value ={
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  agree:  false
 }
 
+}
+catch (error) {
+  console.error('API error', error)
+  console.log('something went wrong')
+}
 finally{
   isLoading.value = false
 }
-}
 
+
+}
+}
 </script>
