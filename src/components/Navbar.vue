@@ -16,6 +16,10 @@
         <router-link to="/register" class="nav-link" active-class="active-link">
           Register
         </router-link>
+
+        <router-link to="/users" class="nav-link" active-class="active-link">
+          Users
+        </router-link>
       </div>
 
     </div>
