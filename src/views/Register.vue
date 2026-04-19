@@ -71,13 +71,22 @@
       </div>
 
         <!-- CTA -->
-        <button
-          class="w-full bg-black text-white py-3 rounded-lg font-medium hover:opacity-90 transition"
-          :disabled="isLoading">
-        {{isLoading ? 'Creating account....' : 'Create account'}}
+       <button
+  class="w-full bg-black text-white py-3 rounded-lg font-medium hover:opacity-90 transition"
+  :disabled="isLoading"
+>
+  <span v-if="isLoading" class="flex items-center justify-center gap-2">
+    <svg class="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    Creating account...
+  </span>
 
-        </button>
-
+  <span v-else>
+    Create account
+  </span>
+</button>
         <!-- Login -->
         <p class="text-sm text-gray-500 text-center">
           Already have an account?
@@ -115,68 +124,83 @@ agree: false
 })
 
 const error = ref({})
+const submitStatus = ref(null)
+
+
 
 async function handleSubmit() {
-
   error.value = {}
-// form validation
+  submitStatus.value = null
 
-if(!form.value.name.trim()){
-  error.value.name = 'Name is required'
-}
-if(!form.value.email.trim()){
-  error.value.email = 'Email is required'
-}
-if(!form.value.password.trim()){
-  error.value.password = 'Password is required'
-}else if (!/\S+@\S+\.\S+/.test(form.value.email)) {
-    error.value.email = 'Please enter a valid email';
-}
-
-if(!form.value.confirmPassword.trim()){
-  error.value.confirmPassword = 'Password is required'
-}
-if(form.value.confirmPassword !== form.value.password) {
-  error.value.confirmPassword = 'Password do not match'
-}
-if(!form.value.agree) {
-  error.value.agree = 'You must accept the terms'
-}
-
-if(Object.keys(error.value).length === 0){
-try {
-  isLoading.value = true
-
-const response = await axios.post('http://localhost:3001/api/auth/register',
-  {
-    name: form.value.name,
-    email: form.value.email,
-    password: form.value.password
+  // validation
+  if (!form.value.name.trim()) {
+    error.value.name = 'Name is required'
   }
-)
-console.log(response.data)
-console.log('Submitted sucessfully')
-isLoading.value = false
 
-// reset field
-form.value ={
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  agree:  false
+  if (!form.value.email.trim()) {
+    error.value.email = 'Email is required'
+  } else if (!/\S+@\S+\.\S+/.test(form.value.email)) {
+    error.value.email = 'Please enter a valid email'
+  }
+
+  if (!form.value.password.trim()) {
+    error.value.password = 'Password is required'
+  }
+
+  if (!form.value.confirmPassword.trim()) {
+    error.value.confirmPassword = 'Password is required'
+  }
+
+  if (form.value.confirmPassword !== form.value.password) {
+    error.value.confirmPassword = 'Password do not match'
+  }
+
+  if (!form.value.agree) {
+    error.value.agree = 'You must accept the terms'
+  }
+
+  if (Object.keys(error.value).length > 0) return
+
+  try {
+    isLoading.value = true
+
+    const response = await axios.post(
+      'http://localhost:3002/api/auth/register',
+      {
+        name: form.value.name,
+        email: form.value.email,
+        password: form.value.password
+      }
+    )
+
+    console.log(response.data)
+
+    submitStatus.value = {
+      type: 'success',
+      message: response.data.message
+    }
+
+    // reset form
+    form.value = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      agree: false
+    }
+
+  } catch (error) {
+    console.log(error.response?.data)
+
+    submitStatus.value = {
+      type: 'error',
+      message: error.response?.data?.message || 'Something went wrong'
+    }
+
+  } finally {
+    isLoading.value = false
+  }
 }
 
-}
-catch (error) {
-  console.error('API error', error)
-  console.log('something went wrong')
-}
-finally{
-  isLoading.value = false
-}
 
-
-}
-}
 </script>

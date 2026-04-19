@@ -3,9 +3,9 @@
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
       <!-- Logo -->
-      <h1 class="text-xl font-semibold text-gray-900">
+      <router-link to="/" class="text-xl font-semibold text-gray-900">
         MyApp
-      </h1>
+      </router-link>
 
       <!-- Links -->
       <div class="flex items-center gap-6">
