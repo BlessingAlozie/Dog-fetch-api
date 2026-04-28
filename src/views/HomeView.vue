@@ -16,6 +16,7 @@
           type="email"
           :error="error.email"
           v-model="formData.email"
+          fontSize="sm"
           @update:modelValue="clearError('email')"
         />
         <BaseInput

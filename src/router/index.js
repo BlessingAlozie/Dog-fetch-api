@@ -3,7 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import Register from '@/views/Register.vue'
 import Product from '@/views/Product.vue'
 import Login from '@/views/Login.vue'
-import Users from '@/views/Users.vue'
+import Features from '@/views/Features.vue'
+import NewFile from '@/views/NewFile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,14 +25,19 @@ const router = createRouter({
       component: Product,
     },
      {
-      path: '/users',
-      name: 'users',
-      component: Users,
+      path: '/features',
+      name: 'features',
+      component: Features,
     },
      {
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/newfile',
+      name: 'newfile',
+      component: NewFile,
     },
 
   ],

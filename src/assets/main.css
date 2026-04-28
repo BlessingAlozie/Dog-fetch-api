@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  /* Removed the extra space after 'Sans' */
+  font-family: 'GC North Sans';
+  src: url('/fonts/north-sans/GCNorthSans-Bold.otf') format(opentype);
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GC North Sans';
+  /* Removed /public/ from path - Vite serves from root */
+  src: url('/fonts/north-sans/GCNorthSans-Medium.otf') format(opentype);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}

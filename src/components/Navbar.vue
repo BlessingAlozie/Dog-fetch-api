@@ -17,8 +17,12 @@
           Register
         </router-link>
 
-        <router-link to="/users" class="nav-link" active-class="active-link">
-          Users
+        <router-link to="/features" class="nav-link" active-class="active-link">
+          Features
+        </router-link>
+
+        <router-link to="/newfile" class="nav-link" active-class="active-link">
+          Cards
         </router-link>
       </div>
 
