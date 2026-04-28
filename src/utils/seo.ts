@@ -1,18 +1,18 @@
 /**
- * SEO: updates document title and meta tags (description, Open Graph, Twitter Card).
- * Call from router or from a page component (e.g. blog post) for dynamic meta.
+ * SEO: updates document title and meta tags for Blessing Alozie's Portfolio.
  */
 
-const SITE_NAME = 'Luvie'
+// 1. Update branding constants
+const SITE_NAME = 'Blessing Alozie'
 const DEFAULT_DESCRIPTION =
-  'Book professional stylists, discover your perfect look with AI, and shop everything you need in one seamless app.'
-
+  'Portfolio of Blessing Alozie — UI/UX Designer and Product Builder focused on fintech, web apps, and modern user experiences.'
 
 function getOrigin(): string {
   if (typeof window !== 'undefined' && window.location?.origin) {
     return window.location.origin
   }
-  return (import.meta.env.VITE_SITE_ORIGIN as string) || 'https://luvie.com'
+  // Update your production domain here
+  return (import.meta.env.VITE_SITE_ORIGIN as string) || 'https://your-portfolio.com'
 }
 
 /** Ensure a URL is absolute (origin + path). */
@@ -27,11 +27,8 @@ function absoluteUrl(pathOrUrl: string, origin: string): string {
 export interface SeoMeta {
   title: string
   description?: string
-  /** Image path (e.g. /1.webp) or full URL. Used for og:image and twitter:image. */
   ogImage?: string
-  /** Optional canonical path (e.g. /features). Defaults to current path. */
   canonicalPath?: string
-  /** og:type. Default 'website'. Use 'article' for blog posts. */
   ogType?: 'website' | 'article'
 }
 
@@ -60,15 +57,16 @@ function setLinkRel(rel: string, href: string, doc: Document = document): void {
   el.setAttribute('href', href)
 }
 
-/**
- * Update document head with title and meta tags for SEO and social sharing.
- * Safe to call on every route change or when dynamic content (e.g. blog post) loads.
- */
 export function updateHead(meta: SeoMeta, path: string = '/'): void {
   const origin = getOrigin()
+
+  // 2. Format title: "Page Name | Blessing Alozie"
   const title = meta.title.includes(SITE_NAME) ? meta.title : `${meta.title} | ${SITE_NAME}`
   const description = meta.description ?? DEFAULT_DESCRIPTION
-  const ogImage = meta.ogImage ? absoluteUrl(meta.ogImage, origin) : absoluteUrl('/images/1.webp', origin)
+
+  // 3. Set a default OG image (e.g., your headshot or a portfolio preview)
+  const ogImage = meta.ogImage ? absoluteUrl(meta.ogImage, origin) : absoluteUrl('/preview.png', origin)
+
   const canonicalPath = meta.canonicalPath ?? path
   const canonicalUrl = canonicalPath.startsWith('http') ? canonicalPath : `${origin}${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`
   const ogType = meta.ogType ?? 'website'
